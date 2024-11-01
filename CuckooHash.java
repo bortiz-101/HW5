@@ -1,6 +1,6 @@
 /******************************************************************
  *
- *   YOUR NAME / SECTION NUMBER
+ *   Brian Ortiz/001
  *
  *   Note, additional comments provided throughout this source code
  *   is for educational purposes
@@ -249,8 +249,17 @@ public class CuckooHash<K, V> {
 		// ADD YOUR CODE HERE - DO NOT FORGET TO ADD YOUR NAME AT TOP OF FILE.
 		// Also make sure you read this method's prologue above, it should help
 		// you. Especially the two HINTS in the prologue.
+		int h1 = hash1(key);
+		int h2 = hash2(key);
+		HashSet newSet = new HashSet((Integer) key, (Integer) value);
+		if(table[h1] == null) {
+			table[h1] =
+		}else{
 
-		return;
+		}
+
+
+
 	}
 
 
