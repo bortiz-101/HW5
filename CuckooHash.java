@@ -249,17 +249,36 @@ public class CuckooHash<K, V> {
 		// ADD YOUR CODE HERE - DO NOT FORGET TO ADD YOUR NAME AT TOP OF FILE.
 		// Also make sure you read this method's prologue above, it should help
 		// you. Especially the two HINTS in the prologue.
-		int h1 = hash1(key);
-		int h2 = hash2(key);
-		HashSet newSet = new HashSet((Integer) key, (Integer) value);
-		if(table[h1] == null) {
-			table[h1] =
-		}else{
+		int index = hash1(key);
+		int iterations = 0;
+		K currKey = key;
+		V currValue = value;
 
+		while (iterations < CAPACITY) {
+			// If the bucket is empty, put
+			if (table[index] == null) {
+				table[index] = new Bucket<>(currKey, currValue);
+				return;
+			}
+			// If the same return
+			if (table[index].getBucKey().equals(currKey) && table[index].getValue().equals(currValue)) {
+				return;
+			}
+
+			// Evict the current bucket
+			Bucket<K, V> evicted = table[index];
+			table[index] = new Bucket<>(currKey, currValue);
+
+			currKey = evicted.getBucKey();
+			currValue = evicted.getValue();
+
+			// Alternate between hash1 and hash2 for new index calculation
+			index = (index == hash1(currKey)) ? hash2(currKey) : hash1(currKey);
+			iterations++;
 		}
-
-
-
+		// If a cycle is detected rehash and retry
+		rehash();
+		put(currKey, currValue);
 	}
 
 
